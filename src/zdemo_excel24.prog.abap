@@ -92,7 +92,7 @@ START-OF-SELECTION.
   lv_row = 4.
   WHILE lv_date < lv_max.
     lo_worksheet->set_cell( ip_column = 'B' ip_row = lv_row ip_value = lv_date ).
-    lv_value = zcl_excel_common=>date_to_excel_string( lv_date ).
+    lv_value = zcl_excel_common=>zif_excel_common~date_to_excel_string( lv_date ).
     lo_worksheet->set_cell( ip_column = 'C' ip_row = lv_row ip_value = lv_value ).
     lv_value = lv_date.
     lo_worksheet->set_cell( ip_column = 'D' ip_row = lv_row ip_value = lv_value ).

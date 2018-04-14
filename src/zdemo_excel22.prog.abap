@@ -51,7 +51,7 @@ START-OF-SELECTION.
   lo_worksheet = lo_excel->get_active_worksheet( ).
   lo_worksheet->zif_excel_sheet_properties~set_style( lv_style_guid ).
   lo_worksheet->zif_excel_sheet_protection~protected  = zif_excel_sheet_protection=>c_protected.
-  lo_worksheet->zif_excel_sheet_protection~password   = zcl_excel_common=>encrypt_password( 'test' ).
+  lo_worksheet->zif_excel_sheet_protection~password   = zcl_excel_common=>zif_excel_common~encrypt_password( 'test' ).
   lo_worksheet->zif_excel_sheet_protection~sheet      = zif_excel_sheet_protection=>c_active.
   lo_worksheet->zif_excel_sheet_protection~objects    = zif_excel_sheet_protection=>c_active.
   lo_worksheet->zif_excel_sheet_protection~scenarios  = zif_excel_sheet_protection=>c_active.
@@ -72,7 +72,7 @@ START-OF-SELECTION.
   lo_style_editable = lo_excel->add_new_style( ).
   lo_style_editable->protection->locked = zcl_excel_style_protection=>c_protection_unlocked.
 
-  lt_field_catalog = zcl_excel_common=>get_fieldcatalog( ip_table = lt_test ).
+  lt_field_catalog = zcl_excel_common=>zif_excel_common~get_fieldcatalog( ip_table = lt_test ).
 
   LOOP AT lt_field_catalog ASSIGNING <fs_field_catalog>.
     CASE <fs_field_catalog>-fieldname.

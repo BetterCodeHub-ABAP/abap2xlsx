@@ -126,7 +126,7 @@ METHOD ADD_RANGE.
         lv_coords2   TYPE string.
 
 
-  lv_column = zcl_excel_common=>convert_column2int( ip_start_column ).
+  lv_column = zcl_excel_common=>zif_excel_common~convert_column2int( ip_start_column ).
 *  me->mv_cell_data-cell_row     = 1.
 *  me->mv_cell_data-cell_column  = lv_column.
 *
@@ -137,9 +137,9 @@ METHOD ADD_RANGE.
   CONCATENATE lv_col_alpha lv_row_alpha INTO lv_coords1.
 
   IF ip_stop_column IS NOT INITIAL.
-    lv_column = zcl_excel_common=>convert_column2int( ip_stop_column ).
+    lv_column = zcl_excel_common=>zif_excel_common~convert_column2int( ip_stop_column ).
   ELSE.
-    lv_column = zcl_excel_common=>convert_column2int( ip_start_column ).
+    lv_column = zcl_excel_common=>zif_excel_common~convert_column2int( ip_start_column ).
   ENDIF.
 
   IF ip_stop_row IS NOT INITIAL. " If we don't get explicitly a stop column use start column

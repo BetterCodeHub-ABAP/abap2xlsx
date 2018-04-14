@@ -101,7 +101,7 @@ START-OF-SELECTION.
 
           WHILE row <= highest_row.
             WHILE column <= highest_column.
-              col_str = zcl_excel_common=>convert_column2alpha( column ).
+              col_str = zcl_excel_common=>zif_excel_common~convert_column2alpha( column ).
               worksheet->get_cell(
                 EXPORTING
                   ip_column = col_str

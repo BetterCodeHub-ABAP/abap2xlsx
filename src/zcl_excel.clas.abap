@@ -250,7 +250,7 @@ METHOD add_static_styles.
 
     style = me->add_new_style( <style1>-guid ).
 
-    zcl_excel_common=>recursive_struct_to_class( EXPORTING i_source  = <style1>-complete_style
+    zcl_excel_common=>zif_excel_common~recursive_struct_to_class( EXPORTING i_source  = <style1>-complete_style
                                                            i_sourcex = <style1>-complete_stylex
                                                  CHANGING  e_target  = style ).
 
@@ -493,7 +493,7 @@ METHOD get_style_to_guid.
 
   IF ep_stylemapping-dynamic_style_guid IS NOT INITIAL.
     lo_style = me->get_style_from_guid( ip_guid ).
-    zcl_excel_common=>recursive_class_to_struct( EXPORTING i_source = lo_style
+    zcl_excel_common=>zif_excel_common~recursive_class_to_struct( EXPORTING i_source = lo_style
                                                  CHANGING  e_target =  ep_stylemapping-complete_style
                                                            e_targetx = ep_stylemapping-complete_stylex ).
   ENDIF.

@@ -127,7 +127,7 @@ endmethod.
 
 method GET_CELL_COORD.
 
-  zcl_excel_common=>convert_columnrow2column_a_row(
+  zcl_excel_common=>zif_excel_common~convert_columnrow2column_a_row(
     exporting
       i_columnrow = iv_coord
     importing

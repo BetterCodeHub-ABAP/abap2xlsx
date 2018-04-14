@@ -13,6 +13,7 @@
     <CLSCCINCL>X</CLSCCINCL>
     <FIXPT>X</FIXPT>
     <UNICODE>X</UNICODE>
+    <WITH_UNIT_TESTS>X</WITH_UNIT_TESTS>
    </VSEOCLASS>
    <DESCRIPTIONS>
     <SEOCOMPOTX>
@@ -20,24 +21,6 @@
      <CMPNAME>COLLAPSED</CMPNAME>
      <LANGU>E</LANGU>
      <DESCRIPT>Boolean Variable (X=True, -=False, Space=Unknown)</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>ZCL_EXCEL_ROW</CLSNAME>
-     <CMPNAME>GET_COLLAPSED</CMPNAME>
-     <LANGU>E</LANGU>
-     <DESCRIPT>new - please pass worksheet to make use of new outline info</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>ZCL_EXCEL_ROW</CLSNAME>
-     <CMPNAME>GET_OUTLINE_LEVEL</CMPNAME>
-     <LANGU>E</LANGU>
-     <DESCRIPT>new - please pass worksheet to make use of new outline info</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>ZCL_EXCEL_ROW</CLSNAME>
-     <CMPNAME>GET_VISIBLE</CMPNAME>
-     <LANGU>E</LANGU>
-     <DESCRIPT>new - please pass worksheet to make use of new outline info</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_EXCEL_ROW</CLSNAME>
@@ -56,18 +39,6 @@
      <CMPNAME>ROW_INDEX</CMPNAME>
      <LANGU>E</LANGU>
      <DESCRIPT>Natural number</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>ZCL_EXCEL_ROW</CLSNAME>
-     <CMPNAME>SET_COLLAPSED</CMPNAME>
-     <LANGU>E</LANGU>
-     <DESCRIPT>obsolete - please use worksheet-&gt;set_outline instead</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>ZCL_EXCEL_ROW</CLSNAME>
-     <CMPNAME>SET_OUTLINE_LEVEL</CMPNAME>
-     <LANGU>E</LANGU>
-     <DESCRIPT>obsolete - please use worksheet-&gt;set_outline instead</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>ZCL_EXCEL_ROW</CLSNAME>

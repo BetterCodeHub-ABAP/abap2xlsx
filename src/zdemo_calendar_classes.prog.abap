@@ -217,7 +217,7 @@ CLASS zcl_helper IMPLEMENTATION.
           from_col_int  TYPE zexcel_cell_column,
           col           TYPE zexcel_cell_column_alpha,
           lo_column     TYPE REF TO zcl_excel_column,
-          lo_row        TYPE REF TO zcl_excel_row.
+          lo_row        TYPE REF TO zif_excel_row.
     DATA: lv_date          TYPE datum,
           value            TYPE string,
           weekday          TYPE wotnr,
@@ -230,7 +230,7 @@ CLASS zcl_helper IMPLEMENTATION.
     FIELD-SYMBOLS: <day_name> LIKE LINE OF day_names.
 
     lv_date = i_date_from.
-    from_col_int = zcl_excel_common=>convert_column2int( i_from_col ).
+    from_col_int = zcl_excel_common=>zif_excel_common~convert_column2int( i_from_col ).
     " Add description for Calendar Week
     c_worksheet->set_cell(
       EXPORTING
@@ -248,7 +248,7 @@ CLASS zcl_helper IMPLEMENTATION.
     LOOP AT day_names ASSIGNING <day_name>.
       row     = i_from_row.
       col_int = from_col_int + <day_name>-wotnr.
-      col = zcl_excel_common=>convert_column2alpha( col_int ).
+      col = zcl_excel_common=>zif_excel_common~convert_column2alpha( col_int ).
       value = <day_name>-langt.
       c_worksheet->set_cell(
         EXPORTING
@@ -269,7 +269,7 @@ CLASS zcl_helper IMPLEMENTATION.
 
       row     = i_from_row + weekrow.
       col_int = from_col_int + weekday.
-      col = zcl_excel_common=>convert_column2alpha( col_int ).
+      col = zcl_excel_common=>zif_excel_common~convert_column2alpha( col_int ).
 
       value = day.
       CONDENSE value.
@@ -319,7 +319,7 @@ CLASS zcl_helper IMPLEMENTATION.
     col_int = from_col_int.
     col_max = from_col_int + 7.
     WHILE col_int <= col_max.
-      col = zcl_excel_common=>convert_column2alpha( col_int ).
+      col = zcl_excel_common=>zif_excel_common~convert_column2alpha( col_int ).
       IF sy-index = 1.
         width = '5.0'.
       ELSE.
@@ -365,7 +365,7 @@ CLASS zcl_helper IMPLEMENTATION.
           col_int           TYPE zexcel_cell_column,
           col               TYPE zexcel_cell_column_alpha.
     DATA: lo_column         TYPE REF TO zcl_excel_column,
-          lo_row            TYPE REF TO zcl_excel_row.
+          lo_row            TYPE REF TO zif_excel_row.
 
     FIELD-SYMBOLS: <day_name> LIKE LINE OF day_names.
 
@@ -385,7 +385,7 @@ CLASS zcl_helper IMPLEMENTATION.
       " Day name row
       row     = i_from_row.
       col_int = from_col_int + day + 2.
-      col = zcl_excel_common=>convert_column2alpha( col_int ).
+      col = zcl_excel_common=>zif_excel_common~convert_column2alpha( col_int ).
       READ TABLE day_names ASSIGNING <day_name>
         WITH KEY wotnr = weekday.
       value = <day_name>-kurzt.
@@ -439,7 +439,7 @@ CLASS zcl_helper IMPLEMENTATION.
     WHILE day < 32.
       day = day + 1.
       col_int = from_col_int + day + 2.
-      col = zcl_excel_common=>convert_column2alpha( col_int ).
+      col = zcl_excel_common=>zif_excel_common~convert_column2alpha( col_int ).
       " width
       lo_column = c_worksheet->get_column( col ).
       lo_column->set_width( '3.6' ).

@@ -58,7 +58,7 @@ method CREATE_WT_FCAT.
 
   lo_structdescr ?= cl_abap_structdescr=>describe_by_data_ref( lr_data ).
 
-  lt_dfies = zcl_excel_common=>describe_structure( io_struct = lo_structdescr ).
+  lt_dfies = zcl_excel_common=>zif_excel_common~describe_structure( io_struct = lo_structdescr ).
 
   loop at lt_dfies into ls_dfies.
       MOVE-CORRESPONDING ls_dfies TO ls_fcat.

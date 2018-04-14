@@ -11,7 +11,7 @@ REPORT  zdemo_excel12.
 DATA: lo_excel         TYPE REF TO zcl_excel,
       lo_worksheet     TYPE REF TO zcl_excel_worksheet,
       lo_column        TYPE REF TO zcl_excel_column,
-      lo_row           TYPE REF TO zcl_excel_row.
+      lo_row           TYPE REF TO zif_excel_row.
 
 DATA: lv_file      TYPE xstring,
       lv_bytecount TYPE i,

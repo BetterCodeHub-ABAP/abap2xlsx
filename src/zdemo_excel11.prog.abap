@@ -192,7 +192,7 @@ START-OF-SELECTION.
         lo_style_body           TYPE REF TO zcl_excel_style,
         lo_border_dark          TYPE REF TO zcl_excel_style_border,
         lo_column               TYPE REF TO zcl_excel_column,
-        lo_row                  TYPE REF TO zcl_excel_row.
+        lo_row                  TYPE REF TO zif_excel_row.
 
   DATA: lv_style_body_even_guid   TYPE zexcel_cell_style,
         lv_style_body_green       TYPE zexcel_cell_style.
@@ -234,7 +234,7 @@ START-OF-SELECTION.
   lo_worksheet = lo_excel->get_active_worksheet( ).
   lo_worksheet->set_title( 'Internal table' ).
 
-  lt_field_catalog = zcl_excel_common=>get_fieldcatalog( ip_table = lt_download ).
+  lt_field_catalog = zcl_excel_common=>zif_excel_common~get_fieldcatalog( ip_table = lt_download ).
 
   LOOP AT lt_field_catalog ASSIGNING <fs_field_catalog>.
     CASE <fs_field_catalog>-fieldname.
@@ -350,7 +350,7 @@ START-OF-SELECTION.
   LOOP AT lt_field_catalog ASSIGNING <fs_field_catalog>
     WHERE position <> '' AND dynpfld = abap_true.
     column = <fs_field_catalog>-position.
-    column_alpha = zcl_excel_common=>convert_column2alpha( column ).
+    column_alpha = zcl_excel_common=>zif_excel_common~convert_column2alpha( column ).
     value = <fs_field_catalog>-fieldname.
     lo_worksheet->set_cell( ip_column = column_alpha
                             ip_row    = 1
@@ -368,7 +368,7 @@ START-OF-SELECTION.
   highest_column = lo_worksheet->get_highest_column( ).
   count = 1.
   WHILE count <= highest_column.
-    col_alpha = zcl_excel_common=>convert_column2alpha( ip_column = count ).
+    col_alpha = zcl_excel_common=>zif_excel_common~convert_column2alpha( ip_column = count ).
     lo_column = lo_worksheet->get_column( ip_column = col_alpha ).
     lo_column->set_auto_size( ip_auto_size = abap_true ).
     count = count + 1.

@@ -29,7 +29,7 @@ START-OF-SELECTION.
   lo_worksheet = lo_excel->get_active_worksheet( ).
   lo_worksheet->zif_excel_sheet_protection~protected  = zif_excel_sheet_protection=>c_protected.
 *  lo_worksheet->zif_excel_sheet_protection~password   = 'DAA7'. "it is the encoded word "secret"
-  lo_worksheet->zif_excel_sheet_protection~password   = zcl_excel_common=>encrypt_password( p_pwd ).
+  lo_worksheet->zif_excel_sheet_protection~password   = zcl_excel_common=>zif_excel_common~encrypt_password( p_pwd ).
   lo_worksheet->zif_excel_sheet_protection~sheet      = zif_excel_sheet_protection=>c_active.
   lo_worksheet->zif_excel_sheet_protection~objects    = zif_excel_sheet_protection=>c_active.
   lo_worksheet->zif_excel_sheet_protection~scenarios  = zif_excel_sheet_protection=>c_active.

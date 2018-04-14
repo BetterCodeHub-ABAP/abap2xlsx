@@ -47,7 +47,7 @@ DATA: lv_file                 TYPE xstring,
 DATA: lv_full_path      TYPE string,
       lv_workdir        TYPE string,
       lv_file_separator TYPE c.
-DATA: lo_row TYPE REF TO zcl_excel_row.
+DATA: lo_row TYPE REF TO zif_excel_row.
 
 CONSTANTS: gc_save_file_name TYPE string VALUE '02_Styles.xlsx'.
 INCLUDE zdemo_excel_outputopt_incl.

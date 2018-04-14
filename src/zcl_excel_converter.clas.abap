@@ -347,13 +347,13 @@ METHOD bind_table.
   ASSIGN wo_data->* TO <fs_tab> .
 
   ls_settings-table_style      = i_style_table.
-  ls_settings-top_left_column  = zcl_excel_common=>convert_column2alpha( ip_column = w_col_int ).
+  ls_settings-top_left_column  = zcl_excel_common=>zif_excel_common~convert_column2alpha( ip_column = w_col_int ).
   ls_settings-top_left_row     = w_row_int.
   ls_settings-show_row_stripes = ws_layout-is_stripped.
 
   DESCRIBE TABLE  wt_fieldcatalog  LINES lv_line.
   lv_line = lv_line + 1 + w_col_int.
-  ls_settings-bottom_right_column = zcl_excel_common=>convert_column2alpha( ip_column = lv_line ).
+  ls_settings-bottom_right_column = zcl_excel_common=>zif_excel_common~convert_column2alpha( ip_column = lv_line ).
 
   DESCRIBE TABLE <fs_tab> LINES lv_line.
   ls_settings-bottom_right_row = lv_line + 1 + w_row_int.
@@ -374,7 +374,7 @@ METHOD bind_table.
          ).
   LOOP AT wt_fieldcatalog INTO ls_fcat.
     lv_col_int = w_col_int + ls_fcat-position - 1.
-    lv_col_alpha = zcl_excel_common=>convert_column2alpha( lv_col_int ).
+    lv_col_alpha = zcl_excel_common=>zif_excel_common~convert_column2alpha( lv_col_int ).
 * Freeze panes
     IF ls_fcat-fix_column = abap_true.
       ADD 1 TO r_freeze_col.
@@ -1165,7 +1165,7 @@ method LOOP_NORMAL.
     ENDIF.
     l_s_color = abap_true.
 
-    l_col_alpha = zcl_excel_common=>convert_column2alpha( l_col_int ).
+    l_col_alpha = zcl_excel_common=>zif_excel_common~convert_column2alpha( l_col_int ).
 
 *   Only if the Header is required create it.
     IF ws_option-hidehd IS INITIAL.
@@ -1251,7 +1251,7 @@ method LOOP_SUBTOTAL.
         l_cell_value      TYPE zexcel_cell_value,
         l_s_color         TYPE abap_bool,
         lo_column         TYPE REF TO zcl_excel_column,
-        lo_row            TYPE REF TO zcl_excel_row,
+        lo_row            TYPE REF TO zif_excel_row,
         l_formula         TYPE zexcel_cell_formula,
         l_style           TYPE zexcel_cell_style,
         l_text            TYPE string,
@@ -1318,7 +1318,7 @@ method LOOP_SUBTOTAL.
     SORT lt_fcat BY sort_level DESCENDING.
     LOOP AT lt_fcat ASSIGNING <fs_sfcat> WHERE is_subtotalled = abap_true.
       l_col_int   = i_col_int + <fs_sfcat>-position - 1.
-      l_col_alpha = zcl_excel_common=>convert_column2alpha( l_col_int ).
+      l_col_alpha = zcl_excel_common=>zif_excel_common~convert_column2alpha( l_col_int ).
 * Now the cell values
       ASSIGN COMPONENT <fs_sfcat>-columnname OF STRUCTURE <fs_stab> TO <fs_fldval>.
       IF sy-subrc = 0.
@@ -1365,7 +1365,7 @@ method LOOP_SUBTOTAL.
   SORT lt_fcat BY sort_level DESCENDING.
   LOOP AT lt_fcat ASSIGNING <fs_sfcat> WHERE is_subtotalled = abap_true.
     l_col_int   = i_col_int + <fs_sfcat>-position - 1.
-    l_col_alpha = zcl_excel_common=>convert_column2alpha( l_col_int ).
+    l_col_alpha = zcl_excel_common=>zif_excel_common~convert_column2alpha( l_col_int ).
     READ TABLE wt_sort_values ASSIGNING <fs_sortv> WITH TABLE KEY fieldname = <fs_sfcat>-columnname.
     IF sy-subrc = 0.
       ASSIGN <fs_sortv>-value->* TO <fs_sortval>.
@@ -1403,7 +1403,7 @@ method LOOP_SUBTOTAL.
   l_text    = create_text_subtotal( i_value = 'Grand'(002)
                                     i_totals_function     = <fs_sfcat>-totals_function ).
 
-  l_col_alpha_start = zcl_excel_common=>convert_column2alpha( i_col_int ).
+  l_col_alpha_start = zcl_excel_common=>zif_excel_common~convert_column2alpha( i_col_int ).
   wo_worksheet->set_cell( ip_column    = l_col_alpha_start
                           ip_row       = l_row_int
                           ip_value     = l_text
@@ -1420,7 +1420,6 @@ method LOOP_SUBTOTAL.
       ADD 1 TO r_freeze_col.
     ENDIF.
     l_s_color = abap_true.
-    l_col_alpha = zcl_excel_common=>convert_column2alpha( l_col_int ).
     " First of all write column header
     l_cell_value = <fs_sfcat>-scrtext_m.
     wo_worksheet->set_cell( ip_column    = l_col_alpha
@@ -1697,7 +1696,7 @@ method SET_FIELDCATALOG.
 
   lo_structdescr ?= cl_abap_structdescr=>describe_by_data_ref( lr_data ).
 
-  lt_dfies = zcl_excel_common=>describe_structure( io_struct = lo_structdescr ).
+  lt_dfies = zcl_excel_common=>zif_excel_common~describe_structure( io_struct = lo_structdescr ).
 
   LOOP AT lt_dfies INTO ls_dfies.
     MOVE-CORRESPONDING ls_dfies TO ls_fcat.

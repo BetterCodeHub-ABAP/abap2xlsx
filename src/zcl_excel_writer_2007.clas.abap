@@ -3102,7 +3102,7 @@ METHOD create_xl_sheet.
         lo_data_validation    TYPE REF TO zcl_excel_data_validation,
         lo_table              TYPE REF TO zcl_excel_table,
         lo_column_default     TYPE REF TO zcl_excel_column,
-        lo_row_default        TYPE REF TO zcl_excel_row.
+        lo_row_default        TYPE REF TO zif_excel_row.
 
   DATA: lv_value                    TYPE string,
         lt_range_merge              TYPE string_table,
@@ -3334,8 +3334,8 @@ METHOD create_xl_sheet.
                                   value = lv_value ).
     ENDIF.
 
-    lv_freeze_cell_column_alpha = zcl_excel_common=>convert_column2alpha( ip_column = lv_freeze_cell_column ).
-    lv_value = zcl_excel_common=>number_to_excel_string( ip_value = lv_freeze_cell_row  ).
+    lv_freeze_cell_column_alpha = zcl_excel_common=>zif_excel_common~convert_column2alpha( ip_column = lv_freeze_cell_column ).
+    lv_value = zcl_excel_common=>zif_excel_common~number_to_excel_string( ip_value = lv_freeze_cell_row  ).
     CONCATENATE lv_freeze_cell_column_alpha lv_value INTO lv_value.
     lo_element_3->set_attribute_ns( name  = 'topLeftCell'
                                   value = lv_value ).
@@ -3516,7 +3516,7 @@ METHOD create_xl_sheet.
       lo_column_iterator = io_worksheet->get_columns_iterator( ).
       WHILE lo_column_iterator->has_next( ) = abap_true.
         lo_column ?= lo_column_iterator->get_next( ).
-        lv_column = zcl_excel_common=>convert_column2int( lo_column->get_column_index( ) ).
+        lv_column = zcl_excel_common=>zif_excel_common~convert_column2int( lo_column->get_column_index( ) ).
         INSERT lv_column INTO TABLE lts_sorted_columns.
       ENDWHILE.
 
@@ -3529,7 +3529,7 @@ METHOD create_xl_sheet.
         ENDIF.
         missing_column-first_column = lv_column + 1.
       ENDLOOP.
-      missing_column-last_column = zcl_excel_common=>c_excel_sheet_max_col.
+      missing_column-last_column = zcl_excel_common=>zif_excel_common~c_excel_sheet_max_col.
       APPEND missing_column TO t_missing_columns.
 * Now apply stylesetting ( and other defaults - I copy it from above.  Whoever programmed that seems to know what to do  :o)
       LOOP AT t_missing_columns INTO missing_column.
@@ -3564,7 +3564,7 @@ METHOD create_xl_sheet.
     IF io_worksheet->zif_excel_sheet_properties~hide_columns_from IS NOT INITIAL.
       lo_element_2 = lo_document->create_simple_element( name   = lc_xml_node_col
                                                          parent = lo_document ).
-      lv_value = zcl_excel_common=>convert_column2int( io_worksheet->zif_excel_sheet_properties~hide_columns_from ).
+      lv_value = zcl_excel_common=>zif_excel_common~convert_column2int( io_worksheet->zif_excel_sheet_properties~hide_columns_from ).
       CONDENSE lv_value NO-GAPS.
       lo_element_2->set_attribute_ns( name  = lc_xml_attr_min
                                       value = lv_value ).
@@ -4773,8 +4773,8 @@ METHOD create_xl_sheet_sheet_data.
 
 *        lts_row_dimensions     TYPE zexcel_t_worksheet_rowdimensio,
         lo_row_iterator        TYPE REF TO cl_object_collection_iterator,
-        lo_row                 TYPE REF TO zcl_excel_row,
-        lo_row_empty           TYPE REF TO zcl_excel_row,
+        lo_row                 TYPE REF TO zif_excel_row,
+        lo_row_empty           TYPE REF TO zif_excel_row,
         lts_row_outlines       TYPE zcl_excel_worksheet=>mty_ts_outlines_row,
 
         ls_last_row            TYPE zexcel_s_cell_data,
@@ -4814,7 +4814,7 @@ METHOD create_xl_sheet_sheet_data.
   lo_iterator = io_worksheet->get_tables_iterator( ).
   WHILE lo_iterator->if_object_collection_iterator~has_next( ) EQ abap_true.
     lo_table ?= lo_iterator->if_object_collection_iterator~get_next( ).
-    ls_table_area-left   = zcl_excel_common=>convert_column2int( lo_table->settings-top_left_column ).
+    ls_table_area-left   = zcl_excel_common=>zif_excel_common~convert_column2int( lo_table->settings-top_left_column ).
     ls_table_area-right  = lo_table->get_right_column_integer( ).
     ls_table_area-top    = lo_table->settings-top_left_row.
     ls_table_area-bottom = lo_table->get_bottom_row_integer( ).
@@ -5424,7 +5424,7 @@ METHOD create_xl_styles.
             APPEND ls_numfmt TO lt_numfmts.
             DESCRIBE TABLE lt_numfmts LINES ls_cellxfs-numfmtid.
           ENDIF.
-          ADD zcl_excel_common=>c_excel_numfmt_offset TO ls_cellxfs-numfmtid. " Add OXML offset for custom styles
+          ADD zcl_excel_common=>zif_excel_common~c_excel_numfmt_offset TO ls_cellxfs-numfmtid. " Add OXML offset for custom styles
         ENDIF.
         ls_cellxfs-applynumberformat    = 1.
       ELSE.
@@ -5479,7 +5479,7 @@ METHOD create_xl_styles.
   LOOP AT lt_numfmts INTO ls_numfmt.
     lo_element_numfmt = lo_document->create_simple_element( name   = lc_xml_node_numfmt
                                                             parent = lo_document ).
-    lv_value = sy-tabix + zcl_excel_common=>c_excel_numfmt_offset.
+    lv_value = sy-tabix + zcl_excel_common=>zif_excel_common~c_excel_numfmt_offset.
     CONDENSE lv_value.
     lo_element_numfmt->set_attribute_ns( name  = lc_xml_attr_numfmtid
                                       value = lv_value ).
@@ -6146,19 +6146,19 @@ METHOD create_xl_styles_color_node.
   ENDIF.
 
   IF is_color-indexed <> zcl_excel_style_color=>c_indexed_not_set.
-    lv_value = zcl_excel_common=>number_to_excel_string( is_color-indexed ).
+    lv_value = zcl_excel_common=>zif_excel_common~number_to_excel_string( is_color-indexed ).
     lo_sub_element->set_attribute_ns( name  = lc_xml_attr_indexed
                                       value = lv_value ).
   ENDIF.
 
   IF is_color-theme <> zcl_excel_style_color=>c_theme_not_set.
-    lv_value = zcl_excel_common=>number_to_excel_string( is_color-theme ).
+    lv_value = zcl_excel_common=>zif_excel_common~number_to_excel_string( is_color-theme ).
     lo_sub_element->set_attribute_ns( name  = lc_xml_attr_theme
                                       value = lv_value ).
   ENDIF.
 
   IF is_color-tint IS NOT INITIAL.
-    lv_value = zcl_excel_common=>number_to_excel_string( is_color-tint ).
+    lv_value = zcl_excel_common=>zif_excel_common~number_to_excel_string( is_color-tint ).
     lo_sub_element->set_attribute_ns( name  = lc_xml_attr_tint
                                       value = lv_value ).
   ENDIF.
@@ -6222,7 +6222,7 @@ METHOD create_xl_table.
                                      value = lc_xml_node_table_ns  ).
 
   lv_id = io_table->get_id( ).
-  lv_value = zcl_excel_common=>number_to_excel_string( ip_value = lv_id ).
+  lv_value = zcl_excel_common=>zif_excel_common~number_to_excel_string( ip_value = lv_id ).
   lo_element_root->set_attribute_ns( name  = lc_xml_attr_id
                                      value = lv_value ).
 

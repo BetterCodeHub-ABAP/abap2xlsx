@@ -102,7 +102,7 @@ method IS_INTERNAL.
 
 
 method SET_CELL_REFERENCE.
-  me->column = zcl_excel_common=>convert_column2alpha( ip_column ). " issue #155 - less restrictive typing for ip_column
+  me->column = zcl_excel_common=>zif_excel_common~convert_column2alpha( ip_column ). " issue #155 - less restrictive typing for ip_column
   me->row = ip_row.
   endmethod.
 ENDCLASS.

@@ -54,7 +54,7 @@ START-OF-SELECTION.
   DATA lt_test TYPE TABLE OF sflight.
   SELECT * FROM sflight INTO TABLE lt_test. "#EC CI_NOWHERE
 
-  lt_field_catalog = zcl_excel_common=>get_fieldcatalog( ip_table = lt_test ).
+  lt_field_catalog = zcl_excel_common=>zif_excel_common~get_fieldcatalog( ip_table = lt_test ).
 
   LOOP AT lt_field_catalog ASSIGNING <fs_field_catalog>.
     CASE <fs_field_catalog>-fieldname.

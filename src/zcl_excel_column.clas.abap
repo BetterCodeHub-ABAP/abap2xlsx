@@ -104,7 +104,7 @@ CLASS ZCL_EXCEL_COLUMN IMPLEMENTATION.
 
 
 method CONSTRUCTOR.
-  me->column_index = zcl_excel_common=>convert_column2int( ip_index ).
+  me->column_index = zcl_excel_common=>zif_excel_common~convert_column2int( ip_index ).
   me->width         = -1.
   me->auto_size     = abap_false.
   me->visible       = abap_true.
@@ -176,7 +176,7 @@ ENDMETHOD.
 
 
 METHOD set_column_index.
-  me->column_index = zcl_excel_common=>convert_column2int( ip_index ).
+  me->column_index = zcl_excel_common=>zif_excel_common~convert_column2int( ip_index ).
   io_column = me.
 ENDMETHOD.
 

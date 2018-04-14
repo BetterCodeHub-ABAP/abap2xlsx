@@ -87,7 +87,7 @@ START-OF-SELECTION.
       column = column + 1.
     ENDIF.
     row = row + 1.
-    col_str = zcl_excel_common=>convert_column2alpha( column ).
+    col_str = zcl_excel_common=>zif_excel_common~convert_column2alpha( column ).
 
     " Fill the cell and apply one style
     lo_worksheet->set_cell( ip_column = col_str
@@ -106,7 +106,7 @@ START-OF-SELECTION.
       lo_style_filled->fill->fgcolor-theme  = sy-index - 1.
       lo_style_filled->fill->fgcolor-tint  = tint.
       <color_style>-style = lo_style_filled->get_guid( ).
-      col_str = zcl_excel_common=>convert_column2alpha( column ).
+      col_str = zcl_excel_common=>zif_excel_common~convert_column2alpha( column ).
       lo_worksheet->set_cell_style( ip_column = col_str
                                     ip_row    = row
                                     ip_style  = <color_style>-style ).

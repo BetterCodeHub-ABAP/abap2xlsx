@@ -37,7 +37,7 @@ DATA: lo_excel                TYPE REF TO zcl_excel,
       lv_style_shrink_guid    TYPE zexcel_cell_style,
       lv_style_indent_guid    TYPE zexcel_cell_style.
 
-DATA: lo_row        TYPE REF TO zcl_excel_row.
+DATA: lo_row        TYPE REF TO zif_excel_row.
 
 CONSTANTS: gc_save_file_name TYPE string VALUE '14_Alignment.xlsx'.
 INCLUDE zdemo_excel_outputopt_incl.

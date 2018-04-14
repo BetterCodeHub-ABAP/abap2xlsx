@@ -8,10 +8,10 @@
 
 REPORT  zdemo_excel6.
 
-DATA: lo_excel                TYPE REF TO zcl_excel,
-      lo_worksheet            TYPE REF TO zcl_excel_worksheet,
-      lv_row                  TYPE syindex,
-      lv_formula              TYPE string.
+DATA: lo_excel     TYPE REF TO zcl_excel,
+      lo_worksheet TYPE REF TO zcl_excel_worksheet,
+      lv_row       TYPE syindex,
+      lv_formula   TYPE string.
 
 
 CONSTANTS: gc_save_file_name TYPE string VALUE '06_Formulas.xlsx'.
@@ -47,7 +47,7 @@ START-OF-SELECTION.
 *--------------------------------------------------------------------*
   DO 10 TIMES.
 
-    lv_formula = zcl_excel_common=>shift_formula( iv_reference_formula = 'SUM(C4:C8)'
+    lv_formula = zcl_excel_common=>zif_excel_common~shift_formula( iv_reference_formula = 'SUM(C4:C8)'
                                                   iv_shift_cols        = 0                " Offset in Columns - here we copy in same column --> 0
                                                   iv_shift_rows        = sy-index ).      " Offset in Row     - here we copy downward --> sy-index
     lv_row = 9 + sy-index.                                                                " Absolute row = sy-index rows below reference cell

@@ -282,7 +282,7 @@ METHOD create_xl_sheet.
     lo_iterator                 TYPE REF TO cl_object_collection_iterator,
     lo_table                    TYPE REF TO zcl_excel_table,
     lo_column_default           TYPE REF TO zcl_excel_column,
-    lo_row_default              TYPE REF TO zcl_excel_row,
+    lo_row_default              TYPE REF TO zif_excel_row,
     lv_value                    TYPE string,
     lv_index                    TYPE i,
     lv_spans                    TYPE string,
@@ -296,7 +296,7 @@ METHOD create_xl_sheet.
     lo_column_iterator          TYPE REF TO cl_object_collection_iterator,
     lo_column                   TYPE REF TO zcl_excel_column,
     lo_row_iterator             TYPE REF TO cl_object_collection_iterator,
-    lo_row                      TYPE REF TO zcl_excel_row,
+    lo_row                      TYPE REF TO zif_excel_row,
     lv_relation_id              TYPE i VALUE 0,
     outline_level_row           TYPE i VALUE 0,
     outline_level_col           TYPE i VALUE 0,
@@ -412,8 +412,8 @@ METHOD create_xl_sheet.
       l_worksheet-xsplit = lv_freeze_cell_row - 1.
     ENDIF.
 
-    lv_freeze_cell_column_alpha = zcl_excel_common=>convert_column2alpha( ip_column = lv_freeze_cell_column ).
-    lv_value = zcl_excel_common=>number_to_excel_string( ip_value = lv_freeze_cell_row  ).
+    lv_freeze_cell_column_alpha = zcl_excel_common=>zif_excel_common~convert_column2alpha( ip_column = lv_freeze_cell_column ).
+    lv_value = zcl_excel_common=>zif_excel_common~number_to_excel_string( ip_value = lv_freeze_cell_row  ).
     CONCATENATE lv_freeze_cell_column_alpha lv_value INTO lv_value.
     l_worksheet-topleftcell = lv_value.
 
@@ -498,7 +498,7 @@ METHOD create_xl_sheet.
 * The rest has to be inserted now.
 *
 
-      lv_column = zcl_excel_common=>convert_column2int( lo_column->get_column_index( ) ).
+      lv_column = zcl_excel_common=>zif_excel_common~convert_column2int( lo_column->get_column_index( ) ).
       INSERT lv_column INTO TABLE lts_sorted_columns.
     ENDWHILE.
 *  ENDIF.
@@ -516,7 +516,7 @@ METHOD create_xl_sheet.
     missing_column-first_column = lv_column + 1.
   ENDLOOP.
 
-  missing_column-last_column = zcl_excel_common=>c_excel_sheet_max_col.
+  missing_column-last_column = zcl_excel_common=>zif_excel_common~c_excel_sheet_max_col.
   APPEND missing_column TO t_missing_columns.
 
 *
@@ -541,7 +541,7 @@ METHOD create_xl_sheet.
   lo_iterator = io_worksheet->get_tables_iterator( ).
   WHILE lo_iterator->if_object_collection_iterator~has_next( ) EQ abap_true.
     lo_table ?= lo_iterator->if_object_collection_iterator~get_next( ).
-    ls_table_area-left   = zcl_excel_common=>convert_column2int( lo_table->settings-top_left_column ).
+    ls_table_area-left   = zcl_excel_common=>zif_excel_common~convert_column2int( lo_table->settings-top_left_column ).
     ls_table_area-right  = lo_table->get_right_column_integer( ).
     ls_table_area-top    = lo_table->settings-top_left_row.
     ls_table_area-bottom = lo_table->get_bottom_row_integer( ).

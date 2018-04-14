@@ -1091,7 +1091,7 @@ method SET_MEDIA_WWW.
 
 
 method SET_POSITION.
-  from_loc-col = zcl_excel_common=>convert_column2int( ip_from_col ) - 1.
+  from_loc-col = zcl_excel_common=>zif_excel_common~convert_column2int( ip_from_col ) - 1.
   IF ip_coloff IS SUPPLIED.
     from_loc-col_offset = ip_coloff.
   ENDIF.

@@ -23,7 +23,7 @@ DATA: lo_excel                TYPE REF TO zcl_excel,
       lo_style_credit         TYPE REF TO zcl_excel_style,
       lo_style_link           TYPE REF TO zcl_excel_style,
       lo_column               TYPE REF TO zcl_excel_column,
-      lo_row                  TYPE REF TO zcl_excel_row,
+      lo_row                  TYPE REF TO zif_excel_row,
       lo_hyperlink            TYPE REF TO zcl_excel_hyperlink.
 
 DATA: lv_style_color0_guid    TYPE zexcel_cell_style,
@@ -698,7 +698,7 @@ START-OF-SELECTION.
   lv_col = 1.
 
   LOOP AT lt_mapper INTO ls_mapper.
-    lv_col_str = zcl_excel_common=>convert_column2alpha( lv_col ).
+    lv_col_str = zcl_excel_common=>zif_excel_common~convert_column2alpha( lv_col ).
     IF ls_mapper IS INITIAL.
       lo_row = lo_worksheet->get_row( ip_row = lv_row ).
       lo_row->set_row_height( ip_row_height = 8 ).

@@ -314,7 +314,7 @@ METHOD fill_row_outlines.
         lv_next_consecutive_row TYPE i,
         lt_outline_rows         TYPE zcl_excel_worksheet=>mty_ts_outlines_row,
         ls_outline_row          LIKE LINE OF lt_outline_rows,
-        lo_row                  TYPE REF TO zcl_excel_row,
+        lo_row                  TYPE REF TO zif_excel_row,
         lo_row_iterator         TYPE REF TO cl_object_collection_iterator,
         lv_row_offset           TYPE i,
         lv_row_collapse_flag    TYPE i.
@@ -1987,13 +1987,13 @@ method LOAD_WORKBOOK.
 *--------------------------------------------------------------------*
           WHEN zcl_excel_autofilters=>c_autofilter.
             lo_autofilter = io_excel->add_new_autofilter( io_sheet = <worksheet>-worksheet ) .
-            zcl_excel_common=>convert_range2column_a_row( EXPORTING i_range        = lv_range_value
+            zcl_excel_common=>zif_excel_common~convert_range2column_a_row( EXPORTING i_range        = lv_range_value
                                                           IMPORTING e_column_start = lv_col_start_alpha
                                                                     e_column_end   = lv_col_end_alpha
                                                                     e_row_start    = ls_area-row_start
                                                                     e_row_end      = ls_area-row_end ).
-            ls_area-col_start = zcl_excel_common=>convert_column2int( lv_col_start_alpha ).
-            ls_area-col_end   = zcl_excel_common=>convert_column2int( lv_col_end_alpha ).
+            ls_area-col_start = zcl_excel_common=>zif_excel_common~convert_column2int( lv_col_start_alpha ).
+            ls_area-col_end   = zcl_excel_common=>zif_excel_common~convert_column2int( lv_col_end_alpha ).
             lo_autofilter->set_filter_area( is_area = ls_area ).
 
 *--------------------------------------------------------------------*
@@ -2027,7 +2027,7 @@ method LOAD_WORKBOOK.
               ENDIF.
             ENDIF.
 * 1st range
-            zcl_excel_common=>convert_range2column_a_row( EXPORTING i_range        = lv_range_value_1
+            zcl_excel_common=>zif_excel_common~convert_range2column_a_row( EXPORTING i_range        = lv_range_value_1
                                                           IMPORTING e_column_start = lv_col_start_alpha
                                                                     e_column_end   = lv_col_end_alpha
                                                                     e_row_start    = lv_row_start
@@ -2042,7 +2042,7 @@ method LOAD_WORKBOOK.
             ENDIF.
 
 * 2nd range
-            zcl_excel_common=>convert_range2column_a_row( EXPORTING i_range        = lv_range_value_2
+            zcl_excel_common=>zif_excel_common~convert_range2column_a_row( EXPORTING i_range        = lv_range_value_2
                                                           IMPORTING e_column_start = lv_col_start_alpha
                                                                     e_column_end   = lv_col_end_alpha
                                                                     e_row_start    = lv_row_start
@@ -2268,7 +2268,7 @@ METHOD load_worksheet.
 *              lv_min_col                     TYPE i,     "for use with SPANS element                    " not in use currently
               lv_max_col_s                TYPE char10,     "for use with SPANS element
               lv_min_col_s                TYPE char10,     "for use with SPANS element
-              lo_row                      TYPE REF TO zcl_excel_row,
+              lo_row                      TYPE REF TO zif_excel_row,
 *---    End of current code aligning -------------------------------------------------------------------
 
               lv_path                     TYPE string,
@@ -2469,7 +2469,7 @@ METHOD load_worksheet.
 
         fill_struct_from_attributes( EXPORTING ip_element = lo_ixml_formula_elem CHANGING cp_structure = ls_formula_attributes ).
         IF ls_formula_attributes-t = 'shared'.
-          zcl_excel_common=>convert_columnrow2column_a_row( EXPORTING
+          zcl_excel_common=>zif_excel_common~convert_columnrow2column_a_row( EXPORTING
                                                               i_columnrow = ls_cell-r
                                                             IMPORTING
                                                               e_column    = lv_cell_column
@@ -2479,7 +2479,7 @@ METHOD load_worksheet.
               CLEAR ls_ref_formula.
               ls_ref_formula-sheet     = io_worksheet.
               ls_ref_formula-row       = lv_cell_row.
-              ls_ref_formula-column    = zcl_excel_common=>convert_column2int( lv_cell_column ).
+              ls_ref_formula-column    = zcl_excel_common=>zif_excel_common~convert_column2int( lv_cell_column ).
               ls_ref_formula-si        = ls_formula_attributes-si.
               ls_ref_formula-ref       = ls_formula_attributes-ref.
               ls_ref_formula-formula   = lv_cell_formula.
@@ -2496,7 +2496,7 @@ METHOD load_worksheet.
       IF   lv_cell_value    IS NOT INITIAL
         OR lv_cell_formula  IS NOT INITIAL
         OR lv_style_guid    IS NOT INITIAL.
-        zcl_excel_common=>convert_columnrow2column_a_row( EXPORTING
+        zcl_excel_common=>zif_excel_common~convert_columnrow2column_a_row( EXPORTING
                                                             i_columnrow = ls_cell-r
                                                           IMPORTING
                                                             e_column    = lv_cell_column
@@ -2526,7 +2526,7 @@ METHOD load_worksheet.
       ELSE.
         REPLACE REGEX '(\D+)\d+' IN lv_dimension_range WITH '$1'.  " Get max column
       ENDIF.
-      lv_max_col = zcl_excel_common=>convert_column2int( lv_dimension_range ).
+      lv_max_col = zcl_excel_common=>zif_excel_common~convert_column2int( lv_dimension_range ).
     ENDIF.
   ENDIF.
 *--------------------------------------------------------------------*
@@ -2556,7 +2556,7 @@ METHOD load_worksheet.
       lv_index = ls_column-min.
       WHILE lv_index <= ls_column-max AND lv_index <= lv_max_col.
 
-        lv_column_alpha = zcl_excel_common=>convert_column2alpha( lv_index ).
+        lv_column_alpha = zcl_excel_common=>zif_excel_common~convert_column2alpha( lv_index ).
         lo_column =  io_worksheet->get_column( lv_column_alpha ).
 
         IF   ls_column-customwidth = lc_xml_attr_true
@@ -2602,10 +2602,10 @@ METHOD load_worksheet.
     ENDIF.
 
 * issue #367 - hide columns from
-    IF ls_column-max = zcl_excel_common=>c_excel_sheet_max_col.     " Max = very right column
+    IF ls_column-max = zcl_excel_common=>zif_excel_common~c_excel_sheet_max_col.     " Max = very right column
       IF ls_column-hidden = 1     " all hidden
         AND ls_column-min > 0.
-        io_worksheet->zif_excel_sheet_properties~hide_columns_from = zcl_excel_common=>convert_column2alpha( ls_column-min ).
+        io_worksheet->zif_excel_sheet_properties~hide_columns_from = zcl_excel_common=>zif_excel_common~convert_column2alpha( ls_column-min ).
       ELSEIF ls_column-style > ''.
         sy-index = ls_column-style + 1.
         READ TABLE styles INTO lo_excel_style INDEX sy-index.
@@ -2641,7 +2641,7 @@ METHOD load_worksheet.
                                    ip_element = lo_ixml_mergecell_elem
                                  CHANGING
                                    cp_structure = ls_mergecell ).
-    zcl_excel_common=>convert_range2column_a_row( EXPORTING
+    zcl_excel_common=>zif_excel_common~convert_range2column_a_row( EXPORTING
                                                     i_range = ls_mergecell-ref
                                                   IMPORTING
                                                     e_column_start = lv_merge_column_start
@@ -2736,12 +2736,12 @@ METHOD load_worksheet.
     fill_struct_from_attributes( EXPORTING ip_element = lo_ixml_pane_elem CHANGING cp_structure = ls_excel_pane ).
     " Issue #194
     " Replace REGEX with method from the common class
-    zcl_excel_common=>convert_columnrow2column_a_row( EXPORTING
+    zcl_excel_common=>zif_excel_common~convert_columnrow2column_a_row( EXPORTING
                                                         i_columnrow = ls_excel_pane-topleftcell
                                                       IMPORTING
                                                         e_column    = lv_pane_cell_col_a    " Cell Column
                                                         e_row       = lv_pane_cell_row ).   " Natural number
-    lv_pane_cell_col = zcl_excel_common=>convert_column2int( lv_pane_cell_col_a ).
+    lv_pane_cell_col = zcl_excel_common=>zif_excel_common~convert_column2int( lv_pane_cell_col_a ).
     SUBTRACT 1 FROM: lv_pane_cell_col,
                      lv_pane_cell_row.
     IF    lv_pane_cell_col > 0
@@ -2777,7 +2777,7 @@ METHOD load_worksheet.
     ENDIF.
     SPLIT ls_datavalidation-sqref AT space INTO TABLE lt_datavalidation_range.
     LOOP AT lt_datavalidation_range INTO lv_datavalidation_range.
-      zcl_excel_common=>convert_range2column_a_row( EXPORTING
+      zcl_excel_common=>zif_excel_common~convert_range2column_a_row( EXPORTING
                                                       i_range = lv_datavalidation_range
                                                     IMPORTING
                                                       e_column_start = ls_datavalidation-cell_column
@@ -2948,7 +2948,7 @@ METHOD load_worksheet_cond_format.
         DELETE lt_areas WHERE table_line IS INITIAL.
         LOOP AT lt_areas INTO lv_area.
 
-          zcl_excel_common=>convert_range2column_a_row( EXPORTING i_range        = lv_area
+          zcl_excel_common=>zif_excel_common~convert_range2column_a_row( EXPORTING i_range        = lv_area
                                                         IMPORTING e_column_start = lv_area_start_col
                                                                   e_column_end   = lv_area_end_col
                                                                   e_row_start    = lv_area_start_row
@@ -3327,7 +3327,7 @@ method LOAD_WORKSHEET_DRAWING.
     rel_drawing-content = me->get_from_zip_archive( path ). "------------> This is for template usage
 
     path2 = path.
-    zcl_excel_common=>split_file( EXPORTING ip_file = path2
+    zcl_excel_common=>zif_excel_common~split_file( EXPORTING ip_file = path2
                                   IMPORTING ep_extension = file_ext2 ).
     rel_drawing-file_ext = file_ext2.
 
@@ -3425,7 +3425,7 @@ METHOD load_worksheet_hyperlinks.
     ENDIF.
     IF lo_hyperlink IS BOUND.  " because of unsupported external links
 
-      zcl_excel_common=>convert_columnrow2column_a_row( EXPORTING
+      zcl_excel_common=>zif_excel_common~convert_columnrow2column_a_row( EXPORTING
                                                           i_columnrow = ls_hyperlink-ref
                                                         IMPORTING
                                                           e_row       = lv_row
@@ -3538,12 +3538,12 @@ METHOD load_worksheet_pagemargins.
                                    ip_element = lo_ixml_pagemargins_elem
                                  CHANGING
                                    cp_structure = ls_pagemargins ).
-    io_worksheet->sheet_setup->margin_bottom = zcl_excel_common=>excel_string_to_number( ls_pagemargins-bottom ).
-    io_worksheet->sheet_setup->margin_footer = zcl_excel_common=>excel_string_to_number( ls_pagemargins-footer ).
-    io_worksheet->sheet_setup->margin_header = zcl_excel_common=>excel_string_to_number( ls_pagemargins-header ).
-    io_worksheet->sheet_setup->margin_left   = zcl_excel_common=>excel_string_to_number( ls_pagemargins-left   ).
-    io_worksheet->sheet_setup->margin_right  = zcl_excel_common=>excel_string_to_number( ls_pagemargins-right  ).
-    io_worksheet->sheet_setup->margin_top    = zcl_excel_common=>excel_string_to_number( ls_pagemargins-top    ).
+    io_worksheet->sheet_setup->margin_bottom = zcl_excel_common=>zif_excel_common~excel_string_to_number( ls_pagemargins-bottom ).
+    io_worksheet->sheet_setup->margin_footer = zcl_excel_common=>zif_excel_common~excel_string_to_number( ls_pagemargins-footer ).
+    io_worksheet->sheet_setup->margin_header = zcl_excel_common=>zif_excel_common~excel_string_to_number( ls_pagemargins-header ).
+    io_worksheet->sheet_setup->margin_left   = zcl_excel_common=>zif_excel_common~excel_string_to_number( ls_pagemargins-left   ).
+    io_worksheet->sheet_setup->margin_right  = zcl_excel_common=>zif_excel_common~excel_string_to_number( ls_pagemargins-right  ).
+    io_worksheet->sheet_setup->margin_top    = zcl_excel_common=>zif_excel_common~excel_string_to_number( ls_pagemargins-top    ).
   ENDIF.
 
 ENDMETHOD.
@@ -3724,18 +3724,18 @@ method RESOLVE_REFERENCED_FORMULAE.
     ls_referenced_cell-formula    = ls_ref_formula-formula.
 
     TRY.
-        zcl_excel_common=>convert_range2column_a_row( EXPORTING i_range        = ls_ref_formula-ref
+        zcl_excel_common=>zif_excel_common~convert_range2column_a_row( EXPORTING i_range        = ls_ref_formula-ref
                                                       IMPORTING e_column_start = lv_col_from
                                                                 e_column_end   = lv_col_to
                                                                 e_row_start    = ls_referenced_cell-row_from
                                                                 e_row_end      = ls_referenced_cell-row_to  ).
-        ls_referenced_cell-col_from = zcl_excel_common=>convert_column2int( lv_col_from ).
-        ls_referenced_cell-col_to   = zcl_excel_common=>convert_column2int( lv_col_to ).
+        ls_referenced_cell-col_from = zcl_excel_common=>zif_excel_common~convert_column2int( lv_col_from ).
+        ls_referenced_cell-col_to   = zcl_excel_common=>zif_excel_common~convert_column2int( lv_col_to ).
 
 
         CLEAR ls_referenced_cell-ref_cell.
         TRY.
-            ls_referenced_cell-ref_cell(3) = zcl_excel_common=>convert_column2alpha( ls_ref_formula-column ).
+            ls_referenced_cell-ref_cell(3) = zcl_excel_common=>zif_excel_common~convert_column2alpha( ls_ref_formula-column ).
             ls_referenced_cell-ref_cell+3  = ls_ref_formula-row.
             CONDENSE ls_referenced_cell-ref_cell NO-GAPS.
           CATCH zcx_excel.
@@ -3757,7 +3757,7 @@ method RESOLVE_REFERENCED_FORMULAE.
 
     CLEAR lv_current_cell.
     TRY.
-        lv_current_cell(3) = zcl_excel_common=>convert_column2alpha( ls_ref_formula-column ).
+        lv_current_cell(3) = zcl_excel_common=>zif_excel_common~convert_column2alpha( ls_ref_formula-column ).
         lv_current_cell+3  = ls_ref_formula-row.
         CONDENSE lv_current_cell NO-GAPS.
       CATCH zcx_excel.
@@ -3772,7 +3772,7 @@ method RESOLVE_REFERENCED_FORMULAE.
 
       TRY.
 
-          lv_resulting_formula = zcl_excel_common=>determine_resulting_formula( iv_reference_cell     = ls_referenced_cell-ref_cell
+          lv_resulting_formula = zcl_excel_common=>zif_excel_common~determine_resulting_formula( iv_reference_cell     = ls_referenced_cell-ref_cell
                                                                                 iv_reference_formula  = ls_referenced_cell-formula
                                                                                 iv_current_cell       = lv_current_cell ).
 

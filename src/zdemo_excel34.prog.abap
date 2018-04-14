@@ -20,7 +20,7 @@ DATA:      current_row      TYPE i,
            color            TYPE zexcel_style_color_argb,
 
            lo_column        TYPE REF TO zcl_excel_column,
-           lo_row           TYPE REF TO zcl_excel_row,
+           lo_row           TYPE REF TO zif_excel_row,
 
            writing1         TYPE string,
            writing2         TYPE string.
@@ -57,12 +57,12 @@ START-OF-SELECTION.
 * Set size of column + Writing above chessboard
   DO 8 TIMES.
 
-    writing1 = zcl_excel_common=>convert_column2alpha( sy-index ).
+    writing1 = zcl_excel_common=>zif_excel_common~convert_column2alpha( sy-index ).
     writing2 =  sy-index .
     row = current_row + sy-index.
 
     col = sy-index + 1.
-    col_alpha = zcl_excel_common=>convert_column2alpha( col ).
+    col_alpha = zcl_excel_common=>zif_excel_common~convert_column2alpha( col ).
 
 * Set size of column
     lo_column = lo_worksheet->get_column( col_alpha ).
@@ -154,7 +154,7 @@ START-OF-SELECTION.
     row = current_row + sy-index.
     DO 8 TIMES.
       col = sy-index + 1.
-      col_alpha = zcl_excel_common=>convert_column2alpha( col ).
+      col_alpha = zcl_excel_common=>zif_excel_common~convert_column2alpha( col ).
       TRY.
 * Borders around outer limits
           IF row_board = 1.

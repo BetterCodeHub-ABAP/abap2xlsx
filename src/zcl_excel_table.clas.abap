@@ -162,7 +162,7 @@ method GET_ID.
 method GET_NAME.
 
   IF me->name IS INITIAL.
-    me->name = zcl_excel_common=>number_to_excel_string( ip_value = me->id ).
+    me->name = zcl_excel_common=>zif_excel_common~number_to_excel_string( ip_value = me->id ).
     CONCATENATE 'table' me->name INTO me->name.
   ENDIF.
 
@@ -182,13 +182,13 @@ method GET_REFERENCE.
   FIELD-SYMBOLS: <fs_table> TYPE STANDARD TABLE.
 
 *column
-  lv_column = zcl_excel_common=>convert_column2int( settings-top_left_column ).
+  lv_column = zcl_excel_common=>zif_excel_common~convert_column2int( settings-top_left_column ).
   lv_table_lines = 0.
   LOOP AT fieldcat INTO ls_field_catalog WHERE dynpfld EQ abap_true.
     ADD 1 TO lv_table_lines.
   ENDLOOP.
   lv_column = lv_column + lv_table_lines - 1.
-  lv_right_column  = zcl_excel_common=>convert_column2alpha( lv_column ).
+  lv_right_column  = zcl_excel_common=>zif_excel_common~convert_column2alpha( lv_column ).
 
 *row
   ASSIGN table_data->* TO <fs_table>.
@@ -202,8 +202,8 @@ method GET_REFERENCE.
     ADD 1 TO lv_bottom_row.
   ENDIF.
 
-  lv_top_row_string = zcl_excel_common=>number_to_excel_string( settings-top_left_row ).
-  lv_bottom_row_string = zcl_excel_common=>number_to_excel_string( lv_bottom_row ).
+  lv_top_row_string = zcl_excel_common=>zif_excel_common~number_to_excel_string( settings-top_left_row ).
+  lv_bottom_row_string = zcl_excel_common=>zif_excel_common~number_to_excel_string( lv_bottom_row ).
 
   CONCATENATE settings-top_left_column lv_top_row_string
               ':'
@@ -216,11 +216,11 @@ method GET_RIGHT_COLUMN_INTEGER.
   DATA: ls_field_catalog  TYPE zexcel_s_fieldcatalog.
 
   IF settings-bottom_right_column IS NOT INITIAL.
-    ev_column =  zcl_excel_common=>convert_column2int( settings-bottom_right_column ).
+    ev_column =  zcl_excel_common=>zif_excel_common~convert_column2int( settings-bottom_right_column ).
     EXIT.
   ENDIF.
 
-  ev_column =  zcl_excel_common=>convert_column2int( settings-top_left_column ).
+  ev_column =  zcl_excel_common=>zif_excel_common~convert_column2int( settings-top_left_column ).
   LOOP AT fieldcat INTO ls_field_catalog WHERE dynpfld EQ abap_true.
     ADD 1 TO ev_column.
   ENDLOOP.

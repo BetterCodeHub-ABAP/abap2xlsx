@@ -49,7 +49,7 @@ START-OF-SELECTION.
         lo_excel_writer         TYPE REF TO zif_excel_writer,
         lo_worksheet            TYPE REF TO zcl_excel_worksheet,
         lo_column               TYPE REF TO zcl_excel_column,
-        lo_row                  TYPE REF TO zcl_excel_row,
+        lo_row                  TYPE REF TO zif_excel_row,
         lo_hyperlink            TYPE REF TO zcl_excel_hyperlink,
         lo_drawing              TYPE REF TO zcl_excel_drawing.
 
@@ -247,10 +247,10 @@ START-OF-SELECTION.
       to_col = from_col.
     ELSE.
       row = lv_from_row - 1.
-      to_col_int = zcl_excel_common=>convert_column2int( from_col ) + 32.
-      to_col = zcl_excel_common=>convert_column2alpha( to_col_int ).
+      to_col_int = zcl_excel_common=>zif_excel_common~convert_column2int( from_col ) + 32.
+      to_col = zcl_excel_common=>zif_excel_common~convert_column2alpha( to_col_int ).
       to_col_int = to_col_int + 1.
-      to_col_end = zcl_excel_common=>convert_column2alpha( to_col_int ).
+      to_col_end = zcl_excel_common=>zif_excel_common~convert_column2alpha( to_col_int ).
       CONCATENATE month_nr '/' date_from+2(2) INTO value.
       to_row = row + 2.
       lo_worksheet->set_merge(
@@ -268,17 +268,6 @@ START-OF-SELECTION.
         ip_value     = value    " Cell Value
         ip_style     = lv_style_month_guid
     ).
-
-*    to_col_int = zcl_excel_common=>convert_column2int( from_col ) + 7.
-*    to_col = zcl_excel_common=>convert_column2alpha( to_col_int ).
-*
-*    lo_worksheet->set_merge(
-*      EXPORTING
-*        ip_column_start = from_col  " Cell Column Start
-*        ip_column_end   = to_col    " Cell Column End
-*        ip_row          = row       " Cell Row
-*        ip_row_to       = row       " Cell Row
-*    ).
 
     " Add drawing from a XSTRING read from a file
     UNASSIGN <img_descr>.
