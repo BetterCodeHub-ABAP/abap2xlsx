@@ -1,4 +1,4 @@
-langauages:
+languages:
 - abap
 exclude:
 - .*/changelog\.txt
