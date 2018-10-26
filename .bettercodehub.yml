@@ -2,3 +2,4 @@ languages:
 - abap
 exclude:
 - .*/changelog\.txt
+- .*/build/LICENSE\.txt
