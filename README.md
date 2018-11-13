@@ -1,3 +1,5 @@
+[![BCH compliance](https://bettercodehub.com/edge/badge/BetterCodeHub-ABAP/abap2xlsx?branch=master)](https://bettercodehub.com/)
+
 abap2xlsx
 =========
 
