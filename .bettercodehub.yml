@@ -3,7 +3,7 @@ languages:
 production:
 test:
    include:
-   - ".*test.*[.]abap"
+   - .*test.*[.]abap
 exclude:
 - .*/changelog\.txt
 - .*/build/LICENSE\.txt
