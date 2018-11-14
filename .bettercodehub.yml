@@ -1,9 +1,5 @@
 languages:
 - abap
-production:
-test:
-   include:
-   - .*test.*[.]abap
 exclude:
 - .*/changelog\.txt
 - .*/build/LICENSE\.txt
