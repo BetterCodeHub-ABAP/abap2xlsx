@@ -1,5 +1,11 @@
-languages:
-- abap
+component_depth: 2
+languages: 
+- name: abap
+  production:
+  test:
+    include:
+    - .*test.*abap
+
 exclude:
 - .*/changelog\.txt
 - .*/build/LICENSE\.txt
